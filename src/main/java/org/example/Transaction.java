@@ -43,4 +43,11 @@ public class Transaction {
     public int getSum(){
         return this.sum;
     }
+
+    @Override
+    public String toString(){
+        return getClass().getName() + " " + this.getType() + " " + this.getDate() +
+                " " + this.getCategory() + " " + this.getSum();
+    }
 }
+

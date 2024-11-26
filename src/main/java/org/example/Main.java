@@ -1,5 +1,6 @@
 package org.example;
 
+//import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -35,22 +36,25 @@ public class Main {
                         int sum = enterSum(console);
                         manager.addTransaction(true, date, category, sum); // в методе обработка с валидацией
                     } else {
+                        LocalDate date = enterDate(console);
                         Category category = choiceCategory(console, false);
                         int sum = enterSum(console);
-                        manager.addTransaction(false, LocalDate.now(), category, -sum); // в методе обработка с валидацией
+                        manager.addTransaction(false, date, category, -sum); // в методе обработка с валидацией
                     }
-                    System.out.println(" >>> Транзакция завершена");
                     break;
                 case 2:
-                    System.out.println(" >>> Текущий баланс: " + manager.currentBalance());
+                    System.out.println(" >>> Текущий баланс: " + manager.getBalance());
                     break;
                 case 3:
-                    // попросить ввести одну дату
-                    // и вторую
-                    LocalDate start = LocalDate.now(); // of(year, month, day)
-                    LocalDate end = LocalDate.now(); // of(year, month, day)
-                    ArrayList<Transaction> res = manager.filterByDate(start, end);
-                    System.out.println(res);
+                    System.out.println("Введите дату начала");
+                    LocalDate start = enterDate(console);//LocalDate.of(2024, 1, 1);
+                    System.out.println("и дату окончания");
+                    LocalDate end = enterDate(console);//LocalDate.of(2024, 12, 31);
+
+                    ArrayList<Transaction> transactions = manager.filterByDate(start, end);
+
+                    System.out.println(" >>> Список транзакций:");
+                    transactions.forEach( transaction -> System.out.println(transaction));
                     break;
                 case 0:
                     System.out.println(" >>> Выход и завершение программы");
@@ -71,8 +75,8 @@ public class Main {
     public static boolean credOrDeb(Scanner _console){
         System.out.println("""
             Выберите тип операции:
-            1. зачисление
-            2. списание""");
+            1. Зачисление
+            2. Списание""");
 
         return (_console.nextInt() == 1);
     }
@@ -108,16 +112,17 @@ public class Main {
         if(_isCrediting){
             System.out.println("""
                 Выберите категорию:
-                1. SALARY
-                2. OTHER""");
+                1. Зарплата
+                2. Другое""");
 
             result = (_console.nextInt() == 1) ? Category.SALARY : Category.OTHER;
         } else {
             System.out.println("""
                 Выберите категорию:
-                1. FOOD
-                2. TRANSPORT
-                3. ENTERTAINMENT""");
+                1. Еда
+                2. Транспорт
+                3. Развлечения
+                4. Другое""");
 
             switch(_console.nextInt()){
                 case 1:
