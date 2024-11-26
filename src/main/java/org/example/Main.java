@@ -23,7 +23,7 @@ public class Main {
                    1. Добавить запись
                    2. Посмотреть текущий баланс
                    3. Список транзакций за период
-                   0. Выход """.trim());
+                   0. Выход""".trim());
             System.out.println("Введите команду: ");
             int command = console.nextInt();
 
@@ -72,39 +72,27 @@ public class Main {
         console.close();
     }
 
-    // зачисление или списание ()
+    // зачисление или списание
     public static boolean credOrDeb(Scanner _console){
         System.out.println("""
             Выберите тип операции:
             1. зачисление
             2. списание""");
         int type = _console.nextInt();
-        boolean crediting;
+        boolean isCrediting;
 
-        switch (type){
-            case 1:
-                crediting = true;
-                break;
-            case 2:
-                crediting = false;
-                break;
-            default:
-                crediting = true;
-        }
-
-        return crediting;
+        return (type == 1);
     }
+
     // введение суммы
     public static int enterSum(Scanner _console){
         System.out.println("Введите сумму:");
-        int sum = _console.nextInt();
-
-        return sum;
+        return _console.nextInt();
     }
     // введение даты
     public static LocalDate enterDate(Scanner _console){
         System.out.println("""
-            Введите поочередно год, месяц и день в виде числа""");
+            Чтобы ввести дату введите поочередно год, месяц и день в виде числа""");
         System.out.println("""
             год:""");
         int year = _console.nextInt();
@@ -115,50 +103,40 @@ public class Main {
             день:""");
         int day = _console.nextInt();
 
-        LocalDate result = LocalDate.of(year, month, day);
-
-        return result;
+        return LocalDate.of(year, month, day);
     }
 
     // выбор категории транзакции
-    public static Category choiceCategory(Scanner _console, boolean isCrediting){
-        if(isCrediting){
+    public static Category choiceCategory(Scanner _console, boolean _isCrediting){
+        Category result = Category.OTHER;
+
+        if(_isCrediting){
             System.out.println("""
                 Выберите категорию:
                 1. SALARY
                 2. OTHER""");
+
+            result = (_console.nextInt() == 1) ? Category.SALARY : Category.OTHER;
         } else {
             System.out.println("""
                 Выберите категорию:
                 1. FOOD
                 2. TRANSPORT
                 3. ENTERTAINMENT""");
-        }
 
-
-        Category result;
-        int category = _console.nextInt();
-
-        switch(category){
-            case 1:
-                result = Category.FOOD;
-                break;
-            case 2:
-                result = Category.TRANSPORT;
-                break;
-            case 3:
-                result = Category.SALARY;
-                break;
-            case 4:
-                result = Category.ENTERTAINMENT;
-                break;
-            case 5:
-                result = Category.OTHER;
-                break;
-            default:
-                System.out.println("dickhead");
-                result = Category.OTHER;
-                break;
+            switch(_console.nextInt()){
+                case 1:
+                    result = Category.FOOD;
+                    break;
+                case 2:
+                    result = Category.TRANSPORT;
+                    break;
+                case 3:
+                    result = Category.ENTERTAINMENT;
+                    break;
+                default:
+                    break;
+            }
         }
 
         return result;
