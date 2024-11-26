@@ -6,7 +6,7 @@ import java.util.ArrayList;
 // класс для управления всеми транзакциями (добавление, вывод, подсчёт баланса).
 public class BudgetManager {
     private int balance = 0;
-    ArrayList<Transaction> list;
+    private ArrayList<Transaction> list = new ArrayList<Transaction>();
 
     public static void main(String[] args){}
 
@@ -20,12 +20,12 @@ public class BudgetManager {
     }
 
     // добавляет запись
-    public boolean addTransaction(LocalDate _date, Category _category, int _sum){
-        System.out.println("Добавляю транзакцию");
-        int curr = this.getBalance();
-        this.setBalance(curr + _sum);
-
-        return true;
+    public void addTransaction(boolean _isCrediting, LocalDate _date, Category _category, int _sum){
+        System.out.println(" >>> Обработка транзакции");
+        Type type = _isCrediting ? Type.CREDITING : Type.DEBITING;
+        Transaction transaction = createTransaction(type, _date, _category, _sum);
+        list.add(transaction);
+        this.setBalance(this.balance + _sum);
     }
 
     // возвращает текущий баланс
@@ -40,5 +40,15 @@ public class BudgetManager {
         ArrayList<Transaction> result = new ArrayList<>();
 
         return result;
+    }
+
+    private Transaction createTransaction(Type _type, LocalDate _date, Category _category, int _sum){
+        Transaction transaction = new Transaction();
+        transaction.setType(_type);
+        transaction.setDate(_date);
+        transaction.setCategory(_category);
+        transaction.setSum(_sum);
+
+        return transaction;
     }
 }

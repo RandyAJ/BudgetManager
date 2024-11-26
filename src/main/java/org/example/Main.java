@@ -18,7 +18,7 @@ public class Main {
         boolean continueCicle = true;
         
         while (continueCicle) {
-            System.out.println("");
+            System.out.println();
             System.out.println("""
                    1. Добавить запись
                    2. Посмотреть текущий баланс
@@ -33,18 +33,16 @@ public class Main {
                         LocalDate date = enterDate(console);
                         Category category = choiceCategory(console, true);
                         int sum = enterSum(console);
-                        manager.addTransaction(date, category, sum); // в методе обработка с валидацией
+                        manager.addTransaction(true, date, category, sum); // в методе обработка с валидацией
                     } else {
                         Category category = choiceCategory(console, false);
                         int sum = enterSum(console);
-                        manager.addTransaction(LocalDate.now(), category, -sum); // в методе обработка с валидацией
+                        manager.addTransaction(false, LocalDate.now(), category, -sum); // в методе обработка с валидацией
                     }
-                    System.out.println(" >>> Добавлена транзакция");
-
+                    System.out.println(" >>> Транзакция завершена");
                     break;
                 case 2:
                     System.out.println(" >>> Текущий баланс: " + manager.currentBalance());
-
                     break;
                 case 3:
                     // попросить ввести одну дату
@@ -53,18 +51,15 @@ public class Main {
                     LocalDate end = LocalDate.now(); // of(year, month, day)
                     ArrayList<Transaction> res = manager.filterByDate(start, end);
                     System.out.println(res);
-
                     break;
                 case 0:
                     System.out.println(" >>> Выход и завершение программы");
                     continueCicle = false;
-
                     break;
                 default:
                     System.out.println(" !");
                     System.out.println(" >>> Неверные данные");
                     System.out.println(" !");
-
                     break;
             }
         }
@@ -78,21 +73,21 @@ public class Main {
             Выберите тип операции:
             1. зачисление
             2. списание""");
-        int type = _console.nextInt();
-        boolean isCrediting;
 
-        return (type == 1);
+        return (_console.nextInt() == 1);
     }
 
     // введение суммы
     public static int enterSum(Scanner _console){
         System.out.println("Введите сумму:");
+
         return _console.nextInt();
     }
+
     // введение даты
     public static LocalDate enterDate(Scanner _console){
         System.out.println("""
-            Чтобы ввести дату введите поочередно год, месяц и день в виде числа""");
+            Чтобы ввести дату введите поочередно: год, месяц и день в виде числа""");
         System.out.println("""
             год:""");
         int year = _console.nextInt();
