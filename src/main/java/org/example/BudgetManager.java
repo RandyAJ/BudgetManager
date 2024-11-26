@@ -12,6 +12,7 @@ public class BudgetManager {
         // ...
     }
 
+
     // getters, setters
     public int getBalance(){
         return this.balance;
